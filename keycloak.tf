@@ -17,10 +17,12 @@ provider "keycloak" {
 
 locals {
   realm_id = "master"
-  groups   = ["kube-dev", "kube-admin"]
+  groups   = ["kube-dev", "kube-manager", "kube-dev-lead"]
   user_groups = {
-    user-dev   = ["kube-dev"]
-    user-admin = ["kube-admin"]
+    dev1   = ["kube-dev"]
+    dev2   = ["kube-dev"]
+    manager = ["kube-manager"]
+    dev-lead = ["kube-dev-lead"]
   }
 }
 # create groups

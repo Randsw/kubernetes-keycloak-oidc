@@ -18,32 +18,49 @@ postgresql:
   enabled: true
   postgresqlPassword: password
 EOF
-#   extraTls:
-#   - hosts:
-#     - keycloak.kind.cluster
-#       secretName: keycloak.kind.cluster-tls
 
+# Create manager role (only view)
 kubectl apply -f - <<EOF
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: kube-admin
+  name: kube-manager
 subjects:
 - kind: Group
-  name: kube-admin
+  name: kube-manager
   apiGroup: rbac.authorization.k8s.io
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: cluster-admin
----
-kind: ClusterRoleBinding
+  name: view
+EOF
+
+# Creating developers role for namespace app
+kubectl create ns app
+
+kubectl apply -f - <<EOF
+kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: kube-dev
+  name: kube-admin
+  namespace: app
 subjects:
 - kind: Group
   name: kube-dev
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: view
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: kube-dev-lead
+  namespace: app
+subjects:
+- kind: Group
+  name: kube-dev-lead
   apiGroup: rbac.authorization.k8s.io
 roleRef:
   apiGroup: rbac.authorization.k8s.io
