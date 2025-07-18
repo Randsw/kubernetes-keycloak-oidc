@@ -1,4 +1,4 @@
-# Use Keycloak as OIDC Provider to Grant Access to Kubernetes Cluster with kube-oidc Plugin
+# Use Keycloak as OIDC Provider to Grant Access to Kubernetes Cluster with kube-oidc Plugin and Headlamp UI
 
 ## Requirements
 
@@ -35,10 +35,15 @@ This will create 3 groups with 4 users having specific RBAC permissions:
 | kube-dev        | dev2     | view role on namespace `app`    |
 | kube-dev-lead   | dev-lead | edit role on namespace `app`    |
 | kube-manager    | manager  | view role on cluster            |
+| kube-admin      | admin1   | admin role on cluster           |
 
 ## Configure Keycloak
 
 Run: `terraform init && terraform apply -auto-approve`
+
+## Install Headlamp UI
+
+Run: `./headlamp-setup.sh`
 
 ## Configure kubectl (Install kube-oidc Plugin First)
 
@@ -108,3 +113,17 @@ Don't forget to logout from Keycloak.
     ![dev1 pod creation forbidden](images/image-6.png)
 
 User can't create pods in namespace `app` as expected.
+
+## Testing Headlamp UI
+
+1. Go to `https://console.kind.cluster`
+    Don't forget to logout from Keycloak.
+
+2. Enter credentials:
+
+   - Username: `admin1`
+   - Password: `admin1`
+
+3. Got access to cluster as cluster admin
+
+![alt text](images/image-7.png)

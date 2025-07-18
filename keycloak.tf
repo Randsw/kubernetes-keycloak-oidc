@@ -23,7 +23,7 @@ locals {
     dev2   = ["kube-dev"]
     manager = ["kube-manager"]
     dev-lead = ["kube-dev-lead"]
-    admin = ["kube-admin"]
+    admin1 = ["kube-admin"]
   }
 }
 # create groups
