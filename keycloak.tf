@@ -17,12 +17,13 @@ provider "keycloak" {
 
 locals {
   realm_id = "master"
-  groups   = ["kube-dev", "kube-manager", "kube-dev-lead"]
+  groups   = ["kube-dev", "kube-manager", "kube-dev-lead", "kube-admin"]
   user_groups = {
     dev1   = ["kube-dev"]
     dev2   = ["kube-dev"]
     manager = ["kube-manager"]
     dev-lead = ["kube-dev-lead"]
+    admin = ["kube-admin"]
   }
 }
 # create groups
@@ -78,7 +79,7 @@ resource "keycloak_openid_client" "kube" {
   standard_flow_enabled        = true
   implicit_flow_enabled        = false
   direct_access_grants_enabled = false
-  valid_redirect_uris          = ["http://localhost:8000", "http://localhost:18000"]
+  valid_redirect_uris          = ["http://localhost:8000", "http://localhost:18000", "https://console.kind.cluster/oidc-callback"]
 }
 # configure kube openid client default scopes
 resource "keycloak_openid_client_default_scopes" "kube" {

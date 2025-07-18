@@ -19,6 +19,22 @@ postgresql:
   postgresqlPassword: password
 EOF
 
+# Create admin role
+kubectl apply -f - <<EOF
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: kube-admin
+subjects:
+- kind: Group
+  name: kube-admin
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+EOF
+
 # Create manager role (only view)
 kubectl apply -f - <<EOF
 kind: ClusterRoleBinding

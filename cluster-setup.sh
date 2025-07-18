@@ -193,12 +193,12 @@ EOF
 dnsmasq(){
   log "Hosts ..."
   local INGRESS_LB_IP=$(get_service_lb_ip ingress-nginx ingress-nginx-controller)
-  echo "$INGRESS_LB_IP keycloak.kind.cluster" | sudo tee -a /etc/hosts
+  echo "$INGRESS_LB_IP keycloak.kind.cluster console.kind.cluster" | sudo tee -a /etc/hosts
 }
 
 cleanup(){
   log "CLEANUP ..."
-  sudo sed -i '/grafana.kind.cluster vl.kind.cluster alertmanager.kind.cluster agent.kind.cluster single.kind.cluster$/d' /etc/hosts
+  sudo sed -i '/keycloak.kind.cluster console.kind.cluster"$/d' /etc/hosts
   kind delete cluster || true
 }
 
